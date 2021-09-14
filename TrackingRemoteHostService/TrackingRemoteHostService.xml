@@ -1,0 +1,117 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TrackingRemoteHostService</name>
+    </assembly>
+    <members>
+        <member name="T:TrackingRemoteHostService.Controllers.AuthController">
+            <summary>
+            Контроллер для авторизации в системе
+            </summary>
+        </member>
+        <member name="M:TrackingRemoteHostService.Controllers.AuthController.Auth(TrackingRemoteHostService.Models.UserAuth)">
+            <summary>
+            Авторизация пользователя в системе
+            </summary>
+            <param name="user"></param>
+            <returns>Токен доступа и данные пользователя</returns>
+        </member>
+        <member name="T:TrackingRemoteHostService.Controllers.TrackingController">
+            <summary>
+            Контроллер для управления над хостами
+            </summary>
+        </member>
+        <member name="T:TrackingRemoteHostService.Controllers.UserController">
+            <summary>
+            Контроллер для работы с пользователями системы
+            </summary>
+        </member>
+        <member name="T:TrackingRemoteHostService.Models.AuthUser">
+            <summary>
+            Авторизационные данные сущности пользователь
+            </summary>
+        </member>
+        <member name="P:TrackingRemoteHostService.Models.AuthUser.UserId">
+            <summary>
+            Идентификатор пользователя
+            </summary>
+        </member>
+        <member name="P:TrackingRemoteHostService.Models.AuthUser.User">
+            <summary>
+            Навигационное свой
+            </summary>
+        </member>
+        <member name="P:TrackingRemoteHostService.Models.AuthUser.Login">
+            <summary>
+            Логин
+            </summary>
+        </member>
+        <member name="P:TrackingRemoteHostService.Models.AuthUser.Password">
+            <summary>
+            Пароль
+            </summary>
+        </member>
+        <member name="P:TrackingRemoteHostService.Models.BaseModel.Id">
+            <summary>
+            Идентификатор объекта
+            </summary>
+        </member>
+        <member name="T:TrackingRemoteHostService.Models.Config.AuthOptions">
+            <summary>
+            Конфиг для генерации токена JWT
+            </summary>
+        </member>
+        <member name="P:TrackingRemoteHostService.Models.Config.AuthOptions.Issuer">
+            <summary>
+            Издатель токена
+            </summary>
+        </member>
+        <member name="P:TrackingRemoteHostService.Models.Config.AuthOptions.Audience">
+            <summary>
+            Потребитель токена
+            </summary>
+        </member>
+        <member name="P:TrackingRemoteHostService.Models.Config.AuthOptions.Key">
+            <summary>
+            Ключ для шифрации
+            </summary>
+        </member>
+        <member name="P:TrackingRemoteHostService.Models.Config.AuthOptions.Lifetime">
+            <summary>
+            Время жизни токена (в минутах)
+            </summary>
+        </member>
+        <member name="T:TrackingRemoteHostService.Models.User">
+            <summary>
+            Модель данных сущности пользователь
+            </summary>
+        </member>
+        <member name="P:TrackingRemoteHostService.Models.User.FirstName">
+            <summary>
+            Имя
+            </summary>
+        </member>
+        <member name="P:TrackingRemoteHostService.Models.User.SecondName">
+            <summary>
+            Фамилия
+            </summary>
+        </member>
+        <member name="P:TrackingRemoteHostService.Models.User.Auth">
+            <summary>
+            Навигационное свойство
+            </summary>
+        </member>
+        <member name="M:TrackingRemoteHostService.Services.IAuthService.IAuthService.AuthUser(TrackingRemoteHostService.Models.UserAuth)">
+            <summary>
+            Авторизация пользователя
+            </summary>
+            <param name="userAuth">Авторизационные данные</param>
+            <returns></returns>
+        </member>
+        <member name="T:TrackingRemoteHostService.Services.UserService.IUserService">
+            <summary>
+            Интерфейс для управления пользователями
+            </summary>
+        </member>
+    </members>
+</doc>
