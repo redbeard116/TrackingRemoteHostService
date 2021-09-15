@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using TrackingRemoteHostService.Models;
 
-namespace TrackingRemoteHostService.Services.IAuthService
+namespace TrackingRemoteHostService.Services.AuthService
 {
     public interface IAuthService
     {

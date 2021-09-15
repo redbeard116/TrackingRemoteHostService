@@ -11,8 +11,11 @@ using System;
 using System.IO;
 using System.Reflection;
 using TrackingRemoteHostService.Models.Config;
-using TrackingRemoteHostService.Services.IAuthService;
+using TrackingRemoteHostService.Services.AuthService;
 using TrackingRemoteHostService.Services.UserService;
+using System.Configuration;
+using TrackingRemoteHostService.Services.HostsService;
+using TrackingRemoteHostService.Services.ScheduleService;
 
 namespace TrackingRemoteHostService
 {
@@ -32,7 +35,7 @@ namespace TrackingRemoteHostService
             Configuration.GetSection("AppSettings").Bind(appSettings);
             services.AddSingleton(appSettings);
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options => 
+                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
                 {
                     options.RequireHttpsMetadata = false;
                     options.TokenValidationParameters = new TokenValidationParameters
@@ -46,10 +49,18 @@ namespace TrackingRemoteHostService
                         ValidateIssuerSigningKey = true,
                     };
                 });
+            services.AddSingleton<DbContextOptions<Services.DbService.EfCoreService>>(provider =>
+            {
+                var contextOptions = new DbContextOptionsBuilder<Services.DbService.EfCoreService>();
+                contextOptions.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
+                return contextOptions.Options;
+            });
+            services.AddDbContext<Services.DbService.EfCoreService>(ServiceLifetime.Singleton);
 
-            services.AddDbContext<Services.DbService.EfCoreService>(options => options.UseNpgsql(appSettings.ConnectionString));
             services.AddSingleton<IUserService, UserService>();
             services.AddSingleton<IAuthService, AuthService>();
+            services.AddSingleton<IHostsService, HostsService>();
+            services.AddSingleton<IScheduleService, ScheduleService>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

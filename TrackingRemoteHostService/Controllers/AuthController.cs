@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using TrackingRemoteHostService.Models;
-using TrackingRemoteHostService.Services.IAuthService;
+using TrackingRemoteHostService.Services.AuthService;
 
 namespace TrackingRemoteHostService.Controllers
 {
@@ -41,7 +41,7 @@ namespace TrackingRemoteHostService.Controllers
         {
             try
             {
-                _logger.LogInformation("api/auth/signin");
+                _logger.LogInformation("POST api/auth/signin");
                 var result = await _authService.AuthUser(user);
                 return new OkObjectResult(result);
             }

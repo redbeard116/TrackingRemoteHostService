@@ -3,7 +3,6 @@ using System;
 using System.Threading.Tasks;
 using TrackingRemoteHostService.Models;
 using TrackingRemoteHostService.Services.DbService;
-using Microsoft.EntityFrameworkCore;
 
 namespace TrackingRemoteHostService.Services.UserService
 {
@@ -24,55 +23,36 @@ namespace TrackingRemoteHostService.Services.UserService
         #endregion
 
         #region IUserService
-        public async Task<int?> AddUser(User user)
+        public async Task<User> AddUser(CreateUser createUser)
         {
             try
             {
                 _logger.LogInformation("AddUser");
+
+                var user = new User
+                {
+                    FirstName = createUser.FirstName,
+                    SecondName = createUser.SecondName
+                };
+
                 await _dBContext.Users.AddAsync(user);
                 await _dBContext.SaveChangesAsync();
-                return user.Id;
+
+                var auth = new AuthUser
+                {
+                    UserId = user.Id,
+                    Login = createUser.Login,
+                    Password = createUser.Password
+                };
+
+                await _dBContext.AuthUsers.AddAsync(auth);
+                await _dBContext.SaveChangesAsync();
+                _logger.LogInformation($"Added new user {user.Id}");
+                return user;
             }
             catch (Exception ex)
             {
                 _logger.LogError($"AddUser error.\nMessage: {ex.Message}\nStack trace: {ex.StackTrace}");
-                return null;
-            }
-        }
-
-        public async Task<bool> DeleteUser(int id)
-        {
-            try
-            {
-                _logger.LogInformation($"DeleteUser {id}");
-                var user = await _dBContext.Users.FirstOrDefaultAsync(w => w.Id == id);
-
-                _dBContext.Users.Remove(user);
-                await _dBContext.SaveChangesAsync();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"DeleteUser error.\nMessage: {ex.Message}\nStack trace: {ex.StackTrace}");
-                return false;
-            }
-        }
-
-        public async Task<User> GetUser(int id)
-        {
-            try
-            {
-                _logger.LogInformation($"GetUser {id}");
-                var rent = await _dBContext.Users.FindAsync(id);
-                if (rent != null)
-                {
-                    return rent;
-                }
-                return null;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"GetUser error.\nMessage: {ex.Message}\nStack trace: {ex.StackTrace}");
                 return null;
             }
         }

@@ -21,10 +21,17 @@
             Контроллер для управления над хостами
             </summary>
         </member>
-        <member name="T:TrackingRemoteHostService.Controllers.UserController">
+        <member name="T:TrackingRemoteHostService.Controllers.UsersController">
             <summary>
             Контроллер для работы с пользователями системы
             </summary>
+        </member>
+        <member name="M:TrackingRemoteHostService.Controllers.UsersController.AddUser(TrackingRemoteHostService.Models.CreateUser)">
+            <summary>
+            Добавление пользователя
+            </summary>
+            <param name="user">Данные пользователя</param>
+            <returns></returns>
         </member>
         <member name="T:TrackingRemoteHostService.Models.AuthUser">
             <summary>
@@ -79,6 +86,31 @@
         <member name="P:TrackingRemoteHostService.Models.Config.AuthOptions.Lifetime">
             <summary>
             Время жизни токена (в минутах)
+            </summary>
+        </member>
+        <member name="T:TrackingRemoteHostService.Models.CreateUser">
+            <summary>
+            Модель данных для создания пользователя
+            </summary>
+        </member>
+        <member name="P:TrackingRemoteHostService.Models.CreateUser.FirstName">
+            <summary>
+            Имя
+            </summary>
+        </member>
+        <member name="P:TrackingRemoteHostService.Models.CreateUser.SecondName">
+            <summary>
+            Фамилия
+            </summary>
+        </member>
+        <member name="P:TrackingRemoteHostService.Models.CreateUser.Login">
+            <summary>
+            Логин
+            </summary>
+        </member>
+        <member name="P:TrackingRemoteHostService.Models.CreateUser.Password">
+            <summary>
+            Пароль
             </summary>
         </member>
         <member name="T:TrackingRemoteHostService.Models.User">

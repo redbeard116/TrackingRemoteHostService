@@ -10,7 +10,7 @@ namespace TrackingRemoteHostService
     {
         public static void Main(string[] args)
         {
-            var logger = NLogBuilder.ConfigureNLog("Config/nlog.config").GetCurrentClassLogger();
+            var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
             logger.Debug("init main");
             CreateHostBuilder(args).Build().Run();
         }
@@ -20,7 +20,7 @@ namespace TrackingRemoteHostService
              .ConfigureAppConfiguration((hostingContext, config) =>
              {
                  config.SetBasePath(Directory.GetCurrentDirectory());
-                 config.AddJsonFile("Config/appsettings.json", true, true);
+                 config.AddJsonFile("appsettings.json", true, true);
                  config.AddEnvironmentVariables();
                  config.AddCommandLine(args);
              })

@@ -10,7 +10,7 @@ using System.IdentityModel.Tokens.Jwt;
 using TrackingRemoteHostService.Models.Config;
 using Microsoft.IdentityModel.Tokens;
 
-namespace TrackingRemoteHostService.Services.IAuthService
+namespace TrackingRemoteHostService.Services.AuthService
 {
     class AuthService : IAuthService
     {

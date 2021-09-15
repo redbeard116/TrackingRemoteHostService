@@ -8,8 +8,6 @@ namespace TrackingRemoteHostService.Services.UserService
     /// </summary>
     public interface IUserService
     {
-        Task<int?> AddUser(User user);
-        Task<bool> DeleteUser(int id);
-        Task<User> GetUser(int id);
+        Task<User> AddUser(CreateUser createUser);
     }
 }
