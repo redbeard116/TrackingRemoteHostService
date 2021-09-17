@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
+using TrackingRemoteHostService.Models;
 using TrackingRemoteHostService.Services.DbService;
 
 namespace TrackingRemoteHostService.Services.UserScheduleService
@@ -28,7 +30,25 @@ namespace TrackingRemoteHostService.Services.UserScheduleService
             {
                 _logger.LogInformation($"Add user schedule {userId}, {scheduleId}");
 
-                return null;
+                var userScheduleId = CheckUserSchedule(userId, scheduleId);
+
+                if (userScheduleId.HasValue)
+                {
+                    return userScheduleId;
+                }
+
+                var userSchedule = new UserSchedule
+                {
+                    UserId = userId,
+                    ScheduleId = scheduleId
+                };
+
+                await _efCoreService.UserSchedules.AddAsync(userSchedule);
+                await _efCoreService.SaveChangesAsync();
+
+                _logger.LogDebug($"User schedule created {userSchedule.Id}");
+
+                return userSchedule.Id;
             }
             catch (Exception ex)
             {
@@ -39,9 +59,15 @@ namespace TrackingRemoteHostService.Services.UserScheduleService
         #endregion
 
         #region Private methods
+        /// <summary>
+        /// Проверка существования в таблице бд
+        /// </summary>
+        /// <param name="userId">Идентификатор пользователя</param>
+        /// <param name="scheduleId">Идентификатор расписания</param>
+        /// <returns></returns>
         private int? CheckUserSchedule(int userId, int scheduleId)
         {
-            return null;//_efCoreService.
+            return _efCoreService.UserSchedules.FirstOrDefault(w => w.UserId == userId && w.ScheduleId == scheduleId)?.Id;
         }
         #endregion
     }

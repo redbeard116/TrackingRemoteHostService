@@ -50,7 +50,8 @@ namespace TrackingRemoteHostService.Services.AuthService
                     return new Responce
                     {
                         AccessToken = accessToken,
-                        User = user
+                        UserName = $"{user.FirstName} {user.SecondName}",
+                        Id = user.Id
                     };
                 }
 
@@ -74,7 +75,7 @@ namespace TrackingRemoteHostService.Services.AuthService
                     new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
                 };
             ClaimsIdentity claimsIdentity =
-            new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType, "");
+            new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType, "Admin");
 
             return claimsIdentity;
         }

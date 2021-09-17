@@ -85,7 +85,7 @@ namespace TrackingRemoteHostService.Services.HostsService
                 validUrl += "/";
             }
 
-            return validUrl;
+            return new Uri(validUrl).Host;
         }
         #endregion
     }

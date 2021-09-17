@@ -5,7 +5,7 @@ namespace TrackingRemoteHostService.Services.HostsService
     /// <summary>
     /// Интерфейс для работы с хостами
     /// </summary>
-    interface IHostsService
+    public interface IHostsService
     {
         /// <summary>
         /// Добавление хоста

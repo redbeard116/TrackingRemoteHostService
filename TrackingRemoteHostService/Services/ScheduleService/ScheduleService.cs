@@ -43,7 +43,7 @@ namespace TrackingRemoteHostService.Services.ScheduleService
                     Interval = interval
                 };
 
-                await _efCoreService.Shedules.AddAsync(schedule);
+                await _efCoreService.Schedules.AddAsync(schedule);
                 await _efCoreService.SaveChangesAsync();
 
                 _logger.LogDebug($"Added schedule {schedule.Id}");
@@ -61,7 +61,7 @@ namespace TrackingRemoteHostService.Services.ScheduleService
         #region Private methods
         private int? ChenckShedule(int hostId, int interval)
         {
-            return _efCoreService.Shedules.FirstOrDefault(w => w.HostId == hostId && w.Interval == interval)?.Id;
+            return _efCoreService.Schedules.FirstOrDefault(w => w.HostId == hostId && w.Interval == interval)?.Id;
         }
         #endregion
     }

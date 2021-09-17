@@ -13,9 +13,12 @@ using System.Reflection;
 using TrackingRemoteHostService.Models.Config;
 using TrackingRemoteHostService.Services.AuthService;
 using TrackingRemoteHostService.Services.UserService;
-using System.Configuration;
 using TrackingRemoteHostService.Services.HostsService;
 using TrackingRemoteHostService.Services.ScheduleService;
+using TrackingRemoteHostService.Services.UserScheduleService;
+using TrackingRemoteHostService.Services.HistoryService;
+using TrackingRemoteHostService.Services.BackgroundTaskQueue;
+using TrackingRemoteHostService.Services.PingService;
 
 namespace TrackingRemoteHostService
 {
@@ -55,12 +58,15 @@ namespace TrackingRemoteHostService
                 contextOptions.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
                 return contextOptions.Options;
             });
-            services.AddDbContext<Services.DbService.EfCoreService>(ServiceLifetime.Singleton);
+            services.AddDbContext<Services.DbService.EfCoreService>(ServiceLifetime.Transient);
 
             services.AddSingleton<IUserService, UserService>();
             services.AddSingleton<IAuthService, AuthService>();
             services.AddSingleton<IHostsService, HostsService>();
             services.AddSingleton<IScheduleService, ScheduleService>();
+            services.AddSingleton<IUserScheduleService, UserScheduleService>();
+            services.AddSingleton<IHistoryService, HistoryService>();
+            services.AddSingleton<IPingService, PingService>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -69,6 +75,7 @@ namespace TrackingRemoteHostService
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
             });
+            services.AddHostedService<SchedulesHostedService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -86,7 +93,7 @@ namespace TrackingRemoteHostService
             app.UseRouting();
 
             app.UseAuthorization();
-
+            app.UseAuthentication();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

@@ -50,13 +50,6 @@ namespace TrackingRemoteHostService.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpPost("logout")]
-        [Authorize]
-        public void LogOut()
-        {
-
-        }
         #endregion
     }
 }

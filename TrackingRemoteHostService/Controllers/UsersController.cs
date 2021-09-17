@@ -12,6 +12,7 @@ namespace TrackingRemoteHostService.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
+    [Produces("application/json")]
     public class UsersController : ControllerBase
     {
         #region Fields

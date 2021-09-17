@@ -9,7 +9,7 @@ namespace TrackingRemoteHostService.Models
     /// Модель данных сущности хосты
     /// </summary>
     [Table("hosts", Schema = "public")]
-    class Host : BaseModel
+    public class Host : BaseModel
     {
         /// <summary>
         /// Ссылка на ност

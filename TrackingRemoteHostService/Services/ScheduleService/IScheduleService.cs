@@ -5,7 +5,7 @@ namespace TrackingRemoteHostService.Services.ScheduleService
     /// <summary>
     /// Добавление частоты проверки
     /// </summary>
-    interface IScheduleService
+    public interface IScheduleService
     {
         /// <summary>
         /// Добавление расписания

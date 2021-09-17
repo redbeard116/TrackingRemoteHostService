@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
@@ -24,6 +25,11 @@ namespace TrackingRemoteHostService.Models
         /// Навигационное свойство
         /// </summary>
         [JsonIgnore]
-        public virtual AuthUser Auth { get; set; }
+        public AuthUser Auth { get; set; }
+        /// <summary>
+        /// Навигационное свойство
+        /// </summary>
+        [JsonIgnore]
+        public List<UserSchedule> UserSchedules { get; set; }
     }
 }

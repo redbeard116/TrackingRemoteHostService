@@ -5,7 +5,7 @@ namespace TrackingRemoteHostService.Services.UserScheduleService
     /// <summary>
     /// Интерфейс для работы над пользовательскими расписаниями
     /// </summary>
-    interface IUserScheduleService
+    public interface IUserScheduleService
     {
         /// <summary>
         /// Добавление расписания

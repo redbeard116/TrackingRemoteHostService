@@ -21,6 +21,30 @@
             Контроллер для управления над хостами
             </summary>
         </member>
+        <member name="M:TrackingRemoteHostService.Controllers.TrackingController.AddHost(TrackingRemoteHostService.Models.RestSchedule)">
+            <summary>
+            Добавление хоста для проверки доступности
+            Авторизованный пользователь
+            </summary>
+            <param name="host">Хост</param>
+            <returns>Идентификатор</returns>
+        </member>
+        <member name="M:TrackingRemoteHostService.Controllers.TrackingController.GetCurrentStateHostsAvailability">
+            <summary>
+            Получение текущего состояния работоспособности проверяемых адресов
+            Авторизованный пользователь
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TrackingRemoteHostService.Controllers.TrackingController.GetAvailabilityHostInterval(System.Int64,System.Int64)">
+            <summary>
+            Получение истории проверок за заданный промежуток времени
+            Авторизованный пользователь
+            </summary>
+            <param name="startTime">Дата начала</param>
+            <param name="endTime">Дата окончания</param>
+            <returns></returns>
+        </member>
         <member name="T:TrackingRemoteHostService.Controllers.UsersController">
             <summary>
             Контроллер для работы с пользователями системы
@@ -61,6 +85,16 @@
         <member name="P:TrackingRemoteHostService.Models.BaseModel.Id">
             <summary>
             Идентификатор объекта
+            </summary>
+        </member>
+        <member name="T:TrackingRemoteHostService.Models.Config.AppSettings">
+            <summary>
+            Настройки системы
+            </summary>
+        </member>
+        <member name="P:TrackingRemoteHostService.Models.Config.AppSettings.AuthOptions">
+            <summary>
+            Данные для генерации токена авторизации
             </summary>
         </member>
         <member name="T:TrackingRemoteHostService.Models.Config.AuthOptions">
@@ -113,6 +147,131 @@
             Пароль
             </summary>
         </member>
+        <member name="T:TrackingRemoteHostService.Models.History">
+            <summary>
+            История доступности хостов
+            </summary>
+        </member>
+        <member name="P:TrackingRemoteHostService.Models.History.ScheduleId">
+            <summary>
+            Расписание
+            </summary>
+        </member>
+        <member name="P:TrackingRemoteHostService.Models.History.Schedule">
+            <summary>
+            Навигационное свойство
+            </summary>
+        </member>
+        <member name="P:TrackingRemoteHostService.Models.History.Date">
+            <summary>
+            Дата запрашивания
+            </summary>
+        </member>
+        <member name="P:TrackingRemoteHostService.Models.History.Available">
+            <summary>
+            Доступен
+            </summary>
+        </member>
+        <member name="T:TrackingRemoteHostService.Models.Host">
+            <summary>
+            Модель данных сущности хосты
+            </summary>
+        </member>
+        <member name="P:TrackingRemoteHostService.Models.Host.Url">
+            <summary>
+            Ссылка на ност
+            </summary>
+        </member>
+        <member name="P:TrackingRemoteHostService.Models.Host.Shedules">
+            <summary>
+            Навигационное свой
+            </summary>
+        </member>
+        <member name="T:TrackingRemoteHostService.Models.HostStatus">
+            <summary>
+            Статус хоста
+            </summary>
+        </member>
+        <member name="P:TrackingRemoteHostService.Models.HostStatus.Host">
+            <summary>
+            Хост
+            </summary>
+        </member>
+        <member name="P:TrackingRemoteHostService.Models.HostStatus.Date">
+            <summary>
+            Дата
+            </summary>
+        </member>
+        <member name="P:TrackingRemoteHostService.Models.HostStatus.Available">
+            <summary>
+            Доступность хоста
+            </summary>
+        </member>
+        <member name="T:TrackingRemoteHostService.Models.Responce">
+            <summary>
+            Возвращаемый результата при успешной авторизации
+            </summary>
+        </member>
+        <member name="P:TrackingRemoteHostService.Models.Responce.AccessToken">
+            <summary>
+            Токен доступа
+            </summary>
+        </member>
+        <member name="P:TrackingRemoteHostService.Models.Responce.UserName">
+            <summary>
+            Имя пользователя
+            </summary>
+        </member>
+        <member name="P:TrackingRemoteHostService.Models.Responce.Id">
+            <summary>
+            Идектификатор пользователя
+            </summary>
+        </member>
+        <member name="T:TrackingRemoteHostService.Models.RestSchedule">
+            <summary>
+            Модель для rest добавления хоста с интервалом запроса
+            </summary>
+        </member>
+        <member name="P:TrackingRemoteHostService.Models.RestSchedule.Host">
+            <summary>
+            Хост который проверяется на доступность
+            </summary>
+        </member>
+        <member name="P:TrackingRemoteHostService.Models.RestSchedule.Interval">
+            <summary>
+            Интервал запроса в секундах
+            </summary>
+        </member>
+        <member name="T:TrackingRemoteHostService.Models.Schedule">
+            <summary>
+            Расписания запусков
+            </summary>
+        </member>
+        <member name="P:TrackingRemoteHostService.Models.Schedule.HostId">
+            <summary>
+            Идентификатор хоста
+            </summary>
+        </member>
+        <member name="P:TrackingRemoteHostService.Models.Schedule.Host">
+            <summary>
+            Навигационное свой
+            </summary>
+        </member>
+        <member name="P:TrackingRemoteHostService.Models.Schedule.Interval">
+            <summary>
+            Интервал между запусками
+            </summary>
+        </member>
+        <member name="P:TrackingRemoteHostService.Models.Schedule.UserSchedules">
+            <summary>
+            Навигационное свойство
+            </summary>
+        </member>
+        <member name="P:TrackingRemoteHostService.Models.Schedule.Histories">
+            <summary>
+            Навигационное свой
+            </summary>
+        </member>
         <member name="T:TrackingRemoteHostService.Models.User">
             <summary>
             Модель данных сущности пользователь
@@ -133,11 +292,157 @@
             Навигационное свойство
             </summary>
         </member>
-        <member name="M:TrackingRemoteHostService.Services.IAuthService.IAuthService.AuthUser(TrackingRemoteHostService.Models.UserAuth)">
+        <member name="P:TrackingRemoteHostService.Models.User.UserSchedules">
+            <summary>
+            Навигационное свойство
+            </summary>
+        </member>
+        <member name="T:TrackingRemoteHostService.Models.UserAuth">
+            <summary>
+            Модель для авторизации в системе
+            </summary>
+        </member>
+        <member name="P:TrackingRemoteHostService.Models.UserAuth.Login">
+            <summary>
+            Логин
+            </summary>
+        </member>
+        <member name="P:TrackingRemoteHostService.Models.UserAuth.Password">
+            <summary>
+            Пароль
+            </summary>
+        </member>
+        <member name="T:TrackingRemoteHostService.Models.UserSchedule">
+            <summary>
+            Расписания пользователей
+            </summary>
+        </member>
+        <member name="P:TrackingRemoteHostService.Models.UserSchedule.UserId">
+            <summary>
+            Идентификатор пользователя
+            </summary>
+        </member>
+        <member name="P:TrackingRemoteHostService.Models.UserSchedule.User">
+            <summary>
+            Навигационное свой
+            </summary>
+        </member>
+        <member name="P:TrackingRemoteHostService.Models.UserSchedule.ScheduleId">
+            <summary>
+            Идентификатор
+            </summary>
+        </member>
+        <member name="P:TrackingRemoteHostService.Models.UserSchedule.Schedule">
+            <summary>
+            Навигационное свой
+            </summary>
+        </member>
+        <member name="M:TrackingRemoteHostService.Services.AuthService.IAuthService.AuthUser(TrackingRemoteHostService.Models.UserAuth)">
             <summary>
             Авторизация пользователя
             </summary>
             <param name="userAuth">Авторизационные данные</param>
+            <returns></returns>
+        </member>
+        <member name="T:TrackingRemoteHostService.Services.HistoryService.IHistoryService">
+            <summary>
+            Интерфейс для работы с историей
+            </summary>
+        </member>
+        <member name="M:TrackingRemoteHostService.Services.HistoryService.IHistoryService.GetHistories(System.Int32,System.Int64,System.Int64)">
+            <summary>
+            Получение истории проверок за заданный промежуток времени 
+            </summary>
+            <param name="userId"></param>
+            <param name="startTime"></param>
+            <param name="endTime"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TrackingRemoteHostService.Services.HistoryService.IHistoryService.AddHistory(System.Int32,System.Boolean)">
+            <summary>
+            Добавление истории доступности
+            </summary>
+            <param name="scheduleId"></param>
+            <param name="available"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TrackingRemoteHostService.Services.HistoryService.IHistoryService.GetCurrentStatus(System.Int32)">
+            <summary>
+            Получение текущего состояния работоспособности проверяемых адресов
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TrackingRemoteHostService.Services.HostsService.HostsService.CheckUrl(System.String)">
+            <summary>
+            Проверка хоста в базе
+            </summary>
+            <param name="url"></param>
+            <returns></returns>
+        </member>
+        <member name="M:TrackingRemoteHostService.Services.HostsService.HostsService.GetValidUrl(System.String)">
+            <summary>
+            Получение валидной ссылки
+            </summary>
+            <param name="url">Ссылка</param>
+            <returns>Валидная ссылка</returns>
+        </member>
+        <member name="T:TrackingRemoteHostService.Services.HostsService.IHostsService">
+            <summary>
+            Интерфейс для работы с хостами
+            </summary>
+        </member>
+        <member name="M:TrackingRemoteHostService.Services.HostsService.IHostsService.AddHost(System.String)">
+            <summary>
+            Добавление хоста
+            </summary>
+            <param name="url">Хост</param>
+            <returns>Идентификатор</returns>
+        </member>
+        <member name="T:TrackingRemoteHostService.Services.PingService.IPingService">
+            <summary>
+            Сервис для пинга хоста
+            </summary>
+        </member>
+        <member name="M:TrackingRemoteHostService.Services.PingService.IPingService.PingHost(System.String)">
+            <summary>
+            Пинг
+            </summary>
+            <param name="host">Хост</param>
+            <returns></returns>
+        </member>
+        <member name="T:TrackingRemoteHostService.Services.ScheduleService.IScheduleService">
+            <summary>
+            Добавление частоты проверки
+            </summary>
+        </member>
+        <member name="M:TrackingRemoteHostService.Services.ScheduleService.IScheduleService.AddShedule(System.Int32,System.Int32)">
+            <summary>
+            Добавление расписания
+            </summary>
+            <param name="hostId">Идентификатор хоста</param>
+            <param name="interval">Интервал между запусками</param>
+            <returns></returns>
+        </member>
+        <member name="T:TrackingRemoteHostService.Services.UserScheduleService.IUserScheduleService">
+            <summary>
+            Интерфейс для работы над пользовательскими расписаниями
+            </summary>
+        </member>
+        <member name="M:TrackingRemoteHostService.Services.UserScheduleService.IUserScheduleService.AddUserShedule(System.Int32,System.Int32)">
+            <summary>
+            Добавление расписания
+            </summary>
+            <param name="userId">Идентификатор пользователя</param>
+            <param name="scheduleId">Идентификатор расписания</param>
+            <returns></returns>
+        </member>
+        <member name="M:TrackingRemoteHostService.Services.UserScheduleService.UserScheduleService.CheckUserSchedule(System.Int32,System.Int32)">
+            <summary>
+            Проверка существования в таблице бд
+            </summary>
+            <param name="userId">Идентификатор пользователя</param>
+            <param name="scheduleId">Идентификатор расписания</param>
             <returns></returns>
         </member>
         <member name="T:TrackingRemoteHostService.Services.UserService.IUserService">

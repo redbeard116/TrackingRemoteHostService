@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TrackingRemoteHostService.Services.DbService;
@@ -9,9 +10,10 @@ using TrackingRemoteHostService.Services.DbService;
 namespace TrackingRemoteHostService.Migrations
 {
     [DbContext(typeof(EfCoreService))]
-    partial class EfCoreServiceModelSnapshot : ModelSnapshot
+    [Migration("20210916165508_UpdateMigration")]
+    partial class UpdateMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -70,13 +72,13 @@ namespace TrackingRemoteHostService.Migrations
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("date");
 
-                    b.Property<int>("ScheduleId")
+                    b.Property<int>("UserScheduleId")
                         .HasColumnType("integer")
-                        .HasColumnName("scheduleid");
+                        .HasColumnName("userscheduleid");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ScheduleId");
+                    b.HasIndex("UserScheduleId");
 
                     b.ToTable("history", "public");
                 });
@@ -186,13 +188,13 @@ namespace TrackingRemoteHostService.Migrations
 
             modelBuilder.Entity("TrackingRemoteHostService.Models.History", b =>
                 {
-                    b.HasOne("TrackingRemoteHostService.Models.Schedule", "Schedule")
+                    b.HasOne("TrackingRemoteHostService.Models.UserSchedule", "UserSchedule")
                         .WithMany("Histories")
-                        .HasForeignKey("ScheduleId")
+                        .HasForeignKey("UserScheduleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Schedule");
+                    b.Navigation("UserSchedule");
                 });
 
             modelBuilder.Entity("TrackingRemoteHostService.Models.Schedule", b =>
@@ -232,8 +234,6 @@ namespace TrackingRemoteHostService.Migrations
 
             modelBuilder.Entity("TrackingRemoteHostService.Models.Schedule", b =>
                 {
-                    b.Navigation("Histories");
-
                     b.Navigation("UserSchedules");
                 });
 
@@ -242,6 +242,11 @@ namespace TrackingRemoteHostService.Migrations
                     b.Navigation("Auth");
 
                     b.Navigation("UserSchedules");
+                });
+
+            modelBuilder.Entity("TrackingRemoteHostService.Models.UserSchedule", b =>
+                {
+                    b.Navigation("Histories");
                 });
 #pragma warning restore 612, 618
         }
