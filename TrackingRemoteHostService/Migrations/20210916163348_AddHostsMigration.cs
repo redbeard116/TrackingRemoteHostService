@@ -29,7 +29,7 @@ namespace TrackingRemoteHostService.Migrations
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     hostid = table.Column<int>(type: "integer", nullable: false),
-                    url = table.Column<int>(type: "integer", nullable: false)
+                    interval = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using TrackingRemoteHostService.Extensions;
 
 namespace TrackingRemoteHostService.Models
 {
@@ -25,13 +24,11 @@ namespace TrackingRemoteHostService.Models
         /// </summary>
         [Column("date"), Required]
         [Timestamp]
-        public byte[] Date { get; set; }
+        public DateTime Date { get; set; }
         /// <summary>
         /// Доступен
         /// </summary>
         [Column("available"), Required]
         public bool Available { get; set; }
-
-        public DateTime NormalTime => Date.GetNormalTime();
     }
 }

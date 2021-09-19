@@ -37,18 +37,19 @@ namespace TrackingRemoteHostService.Services.HistoryService
             try
             {
                 _logger.LogInformation($"Get history {startTime}-{endTime}");
+                var efCore = _serviceProvider.GetService<EfCoreService>();
+                var normalStartTime = startTime.GetNormalTime();
+                var normalEndTime = endTime.GetNormalTime();
 
-                using (var efCore = _serviceProvider.GetService<EfCoreService>())
-                {
-                    var userSchedules = efCore.UserSchedules.Where(w => w.UserId == userId);
-                    var normalStartTime = startTime.GetNormalTime();
-                    var normalEndTime = endTime.GetNormalTime();
-                    return efCore.Histories.Where(w => userSchedules
-                                                               .Any(w => w.ScheduleId == w.ScheduleId) && w.NormalTime >= normalEndTime && w.NormalTime <= normalEndTime)
-                                                               .Include(w => w.Schedule)
-                                                               .Include(w => w.Schedule.Host)
-                                                               .Select(w => new HostStatus { Date = w.NormalTime, Available = w.Available, Host = w.Schedule.Host.Url });
-                }
+                return from userSchedules in efCore.UserSchedules.Where(w => w.UserId == userId)
+                       where userSchedules.UserId == userId
+                       join history in efCore.Histories.Include(w => w.Schedule).Include(w => w.Schedule.Host) on userSchedules.Id equals history.ScheduleId
+                       select new HostStatus
+                       {
+                           Date = history.Date.ToString("dd:MM:yyyy HH:mm"),
+                           Available = history.Available,
+                           Host = history.Schedule.Host.Url
+                       };
             }
             catch (Exception ex)
             {
@@ -72,7 +73,7 @@ namespace TrackingRemoteHostService.Services.HistoryService
                     var hostStatus = new HostStatus
                     {
                         Host = schedule.Schedule.Host.Url,
-                        Date = DateTime.Now,
+                        Date = DateTime.Now.ToString("dd:MM:yyyy HH:mm"),
                         Available = status
                     };
                     hostStatuses.Add(hostStatus);
@@ -101,7 +102,7 @@ namespace TrackingRemoteHostService.Services.HistoryService
                 {
                     ScheduleId = scheduleId,
                     Available = available,
-                    Date = BitConverter.GetBytes(DateTime.Now.Ticks)
+                    Date = DateTime.Now
                 };
 
 

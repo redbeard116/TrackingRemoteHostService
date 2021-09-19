@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TrackingRemoteHostService.Models;
@@ -21,7 +23,6 @@ namespace TrackingRemoteHostService.Services.ScheduleService
             _efCoreService = efCoreService;
 
         }
-
         #endregion
 
         #region ISheduleService
@@ -45,7 +46,8 @@ namespace TrackingRemoteHostService.Services.ScheduleService
 
                 await _efCoreService.Schedules.AddAsync(schedule);
                 await _efCoreService.SaveChangesAsync();
-
+                schedule = _efCoreService.Schedules.Where(w => w.Id == schedule.Id).Include(w => w.Host).FirstOrDefault();
+                AddSchedule?.Invoke(this, schedule);
                 _logger.LogDebug($"Added schedule {schedule.Id}");
 
                 return schedule.Id;
@@ -56,6 +58,21 @@ namespace TrackingRemoteHostService.Services.ScheduleService
                 throw;
             }
         }
+
+        public IEnumerable<Schedule> GetAllSchedule()
+        {
+            try
+            {
+                return _efCoreService.Schedules.Include(w => w.Host);
+            }
+            catch (System.Exception ex)
+            {
+                _logger.LogError(ex, $"Error in {nameof(GetAllSchedule)}");
+                throw;
+            }
+        }
+
+        public event System.EventHandler<Schedule> AddSchedule;
         #endregion
 
         #region Private methods

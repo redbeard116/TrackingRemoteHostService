@@ -424,6 +424,17 @@
             <param name="interval">Интервал между запусками</param>
             <returns></returns>
         </member>
+        <member name="M:TrackingRemoteHostService.Services.ScheduleService.IScheduleService.GetAllSchedule">
+            <summary>
+            Получение всех расписании
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="E:TrackingRemoteHostService.Services.ScheduleService.IScheduleService.AddSchedule">
+            <summary>
+            Событие добавления расписания
+            </summary>
+        </member>
         <member name="T:TrackingRemoteHostService.Services.UserScheduleService.IUserScheduleService">
             <summary>
             Интерфейс для работы над пользовательскими расписаниями

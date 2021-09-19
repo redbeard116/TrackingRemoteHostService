@@ -14,7 +14,7 @@ namespace TrackingRemoteHostService.Models
         /// <summary>
         /// Дата
         /// </summary>
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
         /// <summary>
         /// Доступность хоста
         /// </summary>

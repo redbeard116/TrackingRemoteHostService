@@ -135,6 +135,26 @@ namespace TrackingRemoteHostService.Controllers
                 {
                     return Unauthorized();
                 }
+                var errors = new StringBuilder();
+                if (startTime <= 0)
+                {
+                    errors.AppendLine($"Дата начала не должно быть null");
+                }
+                if (endTime <= 0)
+                {
+                    errors.AppendLine($"Дата окончания не должно быть null");
+                }
+                if (endTime <= startTime)
+                {
+                    errors.AppendLine($"Дата окончания не должно быть меньше или равно дате начала");
+                }
+
+                if (errors.Length > 0)
+                {
+                    return BadRequest(errors.ToString());
+                }
+
+
                 _logger.LogInformation($"GET api/tracking/history?startTime={startTime}&endTime={endTime}");
                 var userId = System.Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
                 var result = _historyService.GetHistories(userId, startTime, endTime);

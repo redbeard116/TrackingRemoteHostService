@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Text;
 using System.Threading.Tasks;
 using TrackingRemoteHostService.Models;
 using TrackingRemoteHostService.Services.UserService;
@@ -42,6 +43,13 @@ namespace TrackingRemoteHostService.Controllers
             try
             {
                 _logger.LogDebug("POST api/users");
+                StringBuilder errors = IsValidUserData(user);
+
+                if (errors.Length > 0)
+                {
+                    return BadRequest(errors.ToString());
+                }
+
                 var createdUser = await _userService.AddUser(user);
                 return new OkObjectResult(createdUser);
             }
@@ -49,6 +57,36 @@ namespace TrackingRemoteHostService.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+        #endregion
+
+        #region Private methods
+        private StringBuilder IsValidUserData(CreateUser user)
+        {
+            var errors = new StringBuilder();
+
+            if (string.IsNullOrWhiteSpace(user.FirstName))
+            {
+                errors.AppendLine("Имя должен содержать хотя бы один символ");
+            }
+            if (string.IsNullOrWhiteSpace(user.SecondName))
+            {
+                errors.AppendLine("Фамилия должен содержать хотя бы один символ");
+            }
+            if (string.IsNullOrWhiteSpace(user.Login))
+            {
+                errors.AppendLine("Логин должен содержать хотя бы один символ");
+            }
+            if (string.IsNullOrWhiteSpace(user.Password))
+            {
+                errors.AppendLine("Должен быть установлен пароль");
+            }
+            if (user.Password.Length <= 8)
+            {
+                errors.AppendLine("Слишком короткий пароль");
+            }
+
+            return errors;
         }
         #endregion
     }

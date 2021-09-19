@@ -23,7 +23,7 @@ namespace TrackingRemoteHostService.Models
         /// <summary>
         /// Интервал между запусками
         /// </summary>
-        [Column("url"), Required]
+        [Column("interval"), Required]
         public int Interval { get; set; }
         /// <summary>
         /// Навигационное свойство

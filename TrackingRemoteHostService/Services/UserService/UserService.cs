@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using TrackingRemoteHostService.Models;
 using TrackingRemoteHostService.Services.DbService;
@@ -28,6 +29,11 @@ namespace TrackingRemoteHostService.Services.UserService
             try
             {
                 _logger.LogInformation("AddUser");
+
+                if (_dBContext.AuthUsers.Any(w => w.Login.Equals(createUser.Login)))
+                {
+                    throw new Exception($"Логин уже используется");
+                }
 
                 var user = new User
                 {

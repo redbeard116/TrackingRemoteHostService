@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using TrackingRemoteHostService.Models;
 
 namespace TrackingRemoteHostService.Services.ScheduleService
 {
@@ -14,5 +17,14 @@ namespace TrackingRemoteHostService.Services.ScheduleService
         /// <param name="interval">Интервал между запусками</param>
         /// <returns></returns>
         Task<int?> AddShedule(int hostId, int interval);
+        /// <summary>
+        /// Получение всех расписании
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<Schedule> GetAllSchedule();
+        /// <summary>
+        /// Событие добавления расписания
+        /// </summary>
+        event EventHandler<Schedule> AddSchedule;
     }
 }

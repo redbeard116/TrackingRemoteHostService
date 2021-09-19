@@ -65,8 +65,6 @@ namespace TrackingRemoteHostService.Migrations
                         .HasColumnName("available");
 
                     b.Property<DateTime>("Date")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("date");
 

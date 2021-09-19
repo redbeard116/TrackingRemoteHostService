@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -7,46 +6,60 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using TrackingRemoteHostService.Models;
-using TrackingRemoteHostService.Services.DbService;
 using TrackingRemoteHostService.Services.HistoryService;
 using TrackingRemoteHostService.Services.PingService;
+using TrackingRemoteHostService.Services.ScheduleService;
 
 namespace TrackingRemoteHostService.Services.BackgroundTaskQueue
 {
     class SchedulesHostedService : IHostedService
     {
+        #region Fields
         private readonly ILogger<SchedulesHostedService> _logger;
-        private readonly EfCoreService _efCoreService;
         private readonly IPingService _pingService;
         private readonly IHistoryService _historyService;
+        private readonly IScheduleService _scheduleService;
         private readonly List<Schedule> _runnedSchedules;
 
         private CancellationToken _cancellationToken;
         private Thread _thread;
-        private IEnumerable<Schedule> _schedules;
+        private List<Schedule> _schedules;
+        #endregion
 
-        public SchedulesHostedService(ILogger<SchedulesHostedService> logger, IPingService pingService, EfCoreService efCoreService, IHistoryService historyService)
+        #region Constructor
+        public SchedulesHostedService(ILogger<SchedulesHostedService> logger, IPingService pingService, IHistoryService historyService, IScheduleService scheduleService)
         {
             _logger = logger;
             _pingService = pingService;
-            _efCoreService = efCoreService;
             _historyService = historyService;
+            _scheduleService = scheduleService;
             _runnedSchedules = new List<Schedule>();
-        }
+        } 
+        #endregion
 
+        #region IHostedService
         public Task StartAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation($"Queued Background Task Schedule is starting");
             _cancellationToken = cancellationToken;
             _runnedSchedules.Clear();
-            _schedules = _efCoreService.Schedules.Include(w => w.Host).ToList();
-            _efCoreService.SavingChanges += _efCoreService_SavingChanges;
+            _schedules = _scheduleService.GetAllSchedule().ToList();
+            _scheduleService.AddSchedule += _scheduleService_AddSchedule;
             _thread = new Thread(StartPingHosts);
             _thread.Start();
             _logger.LogInformation($"Queued Background Task Schedule is complete");
             return Task.CompletedTask;
         }
 
+        public Task StopAsync(CancellationToken cancellationToken)
+        {
+            _scheduleService.AddSchedule -= _scheduleService_AddSchedule;
+            cancellationToken.ThrowIfCancellationRequested();
+            return Task.CompletedTask;
+        }
+        #endregion
+
+        #region Private methods
         private void StartPingHosts()
         {
             try
@@ -104,17 +117,13 @@ namespace TrackingRemoteHostService.Services.BackgroundTaskQueue
             _logger.LogInformation($"Run ping host complete. Schedule  = '{schedule.Id}'");
         }
 
-
-        public Task StopAsync(CancellationToken cancellationToken)
+        private void _scheduleService_AddSchedule(object sender, Schedule schedule)
         {
-            _efCoreService.SavingChanges -= _efCoreService_SavingChanges;
-            cancellationToken.ThrowIfCancellationRequested();
-            return Task.CompletedTask;
-        }
-
-        private void _efCoreService_SavingChanges(object sender, SavingChangesEventArgs e)
-        {
-            _schedules = _efCoreService.Schedules.Include(w => w.Host).ToList();
-        }
+            if (!_schedules.Any(w => w.Id == schedule.Id))
+            {
+                _schedules.Add(schedule);
+            }
+        } 
+        #endregion
     }
 }

@@ -16,7 +16,7 @@ namespace TrackingRemoteHostService.Migrations
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     scheduleid = table.Column<int>(type: "integer", nullable: false),
-                    date = table.Column<byte[]>(type: "timestamp without time zone", rowVersion: true, nullable: false),
+                    date = table.Column<DateTime>(type: "timestamp with time zone", rowVersion: true, nullable: false),
                     available = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
