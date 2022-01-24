@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -18,6 +19,7 @@ namespace TrackingRemoteHostService.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Produces("application/json")]
+    [Authorize]
     public class TrackingController : ControllerBase
     {
         #region Fields
@@ -55,10 +57,6 @@ namespace TrackingRemoteHostService.Controllers
         {
             try
             {
-                if (!User.Identity.IsAuthenticated)
-                {
-                    return Unauthorized();
-                }
                 _logger.LogInformation($"POST api/tracking");
 
                 if (host == null)
@@ -105,10 +103,6 @@ namespace TrackingRemoteHostService.Controllers
         {
             try
             {
-                if (!User.Identity.IsAuthenticated)
-                {
-                    return Unauthorized();
-                }
                 _logger.LogInformation("GET api/tracking/history/current");
                 var userId = System.Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
                 var result = await _historyService.GetCurrentStatus(userId);
@@ -131,10 +125,6 @@ namespace TrackingRemoteHostService.Controllers
         {
             try
             {
-                if (!User.Identity.IsAuthenticated)
-                {
-                    return Unauthorized();
-                }
                 var errors = new StringBuilder();
                 if (startTime <= 0)
                 {
